@@ -167,6 +167,6 @@ if st.button("Submit"):
             with open(final_excel_file_path, "rb") as f:
                 st.download_button("Download Excel File", f, file_name=os.path.basename(final_excel_file_path), mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         else:
-            st.error("Redash API busy! Try reloading fetching later")
+            st.error("Redash API busy! Try submitting again.")
     else:
         st.error("Please select both start and end dates.")
