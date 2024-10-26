@@ -325,64 +325,64 @@ if st.button("Submit"):
             ###########
 
             # Plotting and saving as image for PDF
-            images = []  # List to hold image paths for PDF compilation
+        images = []  # List to hold image paths for PDF compilation
             # Unique teachers
 
-            final_result_df = generate_interval_results(Start_Date, End_Date)
-            teachers = final_result_df['Teacher'].unique()
-            for teacher in teachers:
-                teacher_data = final_result_df[final_result_df['Teacher'] == teacher]
-                plt.figure(figsize=(10, 5))
+        final_result_df = generate_interval_results(Start_Date, End_Date)
+        teachers = final_result_df['Teacher'].unique()
+        for teacher in teachers:
+            teacher_data = final_result_df[final_result_df['Teacher'] == teacher]
+            plt.figure(figsize=(10, 5))
 
                 # Create line plots for Average Content Rating and Average Instructor Rating
-                ax1 = plt.gca()
-                ax2 = ax1.twinx()
-                sns.lineplot(x=teacher_data['Interval'],
+            ax1 = plt.gca()
+            ax2 = ax1.twinx()                
+            sns.lineplot(x=teacher_data['Interval'],
                             y=teacher_data['Average Content Rating'],
                             marker='o', label='Content Rating', color='blue', ax=ax1)
-                sns.lineplot(x=teacher_data['Interval'],
+            sns.lineplot(x=teacher_data['Interval'],
                             y=teacher_data['Average Instructor Rating'],
                             marker='o', label='Instructor Rating', color='orange', ax=ax2)
 
                 # Histogram for # of Unique Learner Rated (no separate axis)
-                bars = ax1.bar(teacher_data['Interval'],
+            bars = ax1.bar(teacher_data['Interval'],
                             teacher_data['# of Unique Learner Rated'],
                             alpha=0.3, color='gray', width=0.4)
 
                 # Titles and labels
-                ax1.set_title(f'Rating Trends and Unique Learner Counts for {teacher}')
-                ax1.set_xlabel(f"--------{Start_Date}-------to-----{End_Date}---->")
-                ax1.set_ylabel('Rating')
-                ax2.set_ylabel('Instructor Rating')
-                ax1.legend(loc='upper left', bbox_to_anchor=(0.1, 0.9))
-                ax2.legend(loc='upper left', bbox_to_anchor=(0.1, 0.85))
+            ax1.set_title(f'Rating Trends and Unique Learner Counts for {teacher}')
+            ax1.set_xlabel(f"--------{Start_Date}-------to-----{End_Date}---->")
+            ax1.set_ylabel('Rating')
+            ax2.set_ylabel('Instructor Rating')
+            ax1.legend(loc='upper left', bbox_to_anchor=(0.1, 0.9))
+            ax2.legend(loc='upper left', bbox_to_anchor=(0.1, 0.85))
 
                 # Save plot as image
-                image_path = f"{teacher}_plot.png"
-                plt.savefig(image_path)
-                images.append(image_path)
-                plt.close()  # Close the plot to avoid memory issues
+            image_path = f"{teacher}_plot.png"
+            plt.savefig(image_path)
+            images.append(image_path)
+            plt.close()  # Close the plot to avoid memory issues
 
             # Create PDF from images
             pdf = FPDF()
             pdf.set_auto_page_break(auto=True, margin=15)
 
-            for image_path in images:
-                pdf.add_page()
-                pdf.image(image_path, x=10, y=20, w=180)  # Adjust size and position as needed
+        for image_path in images:
+            pdf.add_page()
+            pdf.image(image_path, x=10, y=20, w=180)  # Adjust size and position as needed
 
             # Save PDF
-            pdf_file_path = f"LC_Ratings_{start_date_str}_{end_date_str}.pdf"
-            pdf.output(pdf_file_path)
+        pdf_file_path = f"LC_Ratings_{start_date_str}_{end_date_str}.pdf"
+        pdf.output(pdf_file_path)
 
             # Display success message and download button for PDF
-            st.success(f"PDF report created: {pdf_file_path}")
-            with open(pdf_file_path, "rb") as f:
-                st.download_button("Download PDF Report", f, file_name=os.path.basename(pdf_file_path), mime="application/pdf")
+        st.success(f"PDF report created: {pdf_file_path}")
+        with open(pdf_file_path, "rb") as f:
+            st.download_button("Download PDF Report", f, file_name=os.path.basename(pdf_file_path), mime="application/pdf")
 
             # Cleanup temporary images after PDF is created
-            for image_path in images:
-                os.remove(image_path)
+        for image_path in images:
+            os.remove(image_path)
              
             ####
     else:
