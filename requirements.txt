@@ -1,1 +1,7 @@
 openpyxl
+streamlit
+pandas
+requests
+matplotlib
+seaborn
+fpdf
