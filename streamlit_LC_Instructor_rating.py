@@ -103,13 +103,15 @@ if st.button("Submit"):
             result = merged_df.groupby(['Teacher', 'Instiute']).agg(
                 avg_content_rating=('Content Rating', 'mean'),
                 avg_instructor_rating=('Instructor Rating', 'mean'),
-                num_unique_sessions=('Email', 'nunique')
+                num_unique_sessions=('Email', 'nunique'),
+                num_sessions=('Id', 'nunique')
             ).reset_index()
             result = result.rename(columns={
                 'Instiute': 'Learning Center',
                 'avg_content_rating': 'Average Content Rating',
                 'avg_instructor_rating': 'Average Instructor Rating',
-                'num_unique_sessions': '# of Unique Learner Rated'
+                'num_unique_sessions': '# of Unique Learner Rated',
+                'num_sessions': '# of Sessions'
             })
 
             # Load student data from Excel
